@@ -2,7 +2,6 @@ import { expect, describe, it } from 'vitest'
 import { compare } from 'bcryptjs'
 import { RegisterUseCase } from './register'
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
-import exp from 'constants'
 import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 
 describe('Register use case', () => {
