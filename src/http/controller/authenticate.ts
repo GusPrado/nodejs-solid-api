@@ -14,9 +14,22 @@ export async function authenticate(req: FastifyRequest, res: FastifyReply) {
   try {
     const authenticateUseCase = makeAuthenticateUseCase()
 
-    await authenticateUseCase.execute({
+    const { user } = await authenticateUseCase.execute({
       email,
       password,
+    })
+
+    const token = await res.jwtSign(
+      {},
+      {
+        sign: {
+          sub: user.id,
+        },
+      },
+    )
+
+    return res.status(200).send({
+      token,
     })
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {
@@ -25,6 +38,4 @@ export async function authenticate(req: FastifyRequest, res: FastifyReply) {
 
     throw err
   }
-
-  return res.status(200).send()
 }
